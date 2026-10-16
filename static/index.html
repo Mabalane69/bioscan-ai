@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BioScan AI • Facial Biometrics, Profile Dossier & Kinship Synthesizer</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-header">
+    <div class="logo-group">
+      <div class="logo-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 3a9 9 0 0 1 9 9M3 12a9 9 0 0 1 9-9"/>
+          <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
+          <circle cx="15" cy="10" r="1.5" fill="currentColor"/>
+          <path d="M9 16c1.5 1.5 4.5 1.5 6 0"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>BioScan AI</h1>
+        <p>Facial Biometrics &amp; Kinship Synthesizer</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="status-pill" id="engine-status-pill" title="Active AI Generation Engine">
+        <span class="status-dot"></span>
+        <span id="active-engine-label">Biogenetic Neural Synthesizer</span>
+      </div>
+
+      <button class="btn-icon" id="audio-toggle-btn" title="Toggle Biometric Sound FX">
+        <svg id="audio-icon-on" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <svg id="audio-icon-off" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+          <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path>
+          <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+      </button>
+
+      <button class="btn-icon" id="settings-open-btn" title="Configure AI Settings &amp; API Key">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Left Column: Face Scanner & Capture Modes -->
+    <aside class="scanner-column">
+
+      <!-- Scanner Input Panel -->
+      <section class="glass-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+            Biometric Input Station
+          </div>
+          <span class="status-pill" id="scanner-state-pill" style="font-size: 0.68rem; padding: 0.2rem 0.6rem;">READY</span>
+        </div>
+
+        <!-- Mode Tabs -->
+        <div class="input-tabs">
+          <button class="tab-btn active" data-tab="webcam" id="tab-webcam">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 7l-7 5 7 5V7z"></path>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+            Webcam
+          </button>
+          <button class="tab-btn" data-tab="upload" id="tab-upload">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            Upload
+          </button>
+          <button class="tab-btn" data-tab="samples" id="tab-samples">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            Sample Faces
+          </button>
+        </div>
+
+        <!-- Viewport Container -->
+        <div class="viewport-wrapper">
+          <!-- Webcam View -->
+          <div class="scanner-viewport" id="viewport-webcam">
+            <video id="webcam-video" autoplay playsinline muted></video>
+            <canvas id="canvas-overlay"></canvas>
+            
+            <!-- Biometric Corner Reticles -->
+            <div class="hud-corner corner-tl"></div>
+            <div class="hud-corner corner-tr"></div>
+            <div class="hud-corner corner-bl"></div>
+            <div class="hud-corner corner-br"></div>
+            
+            <!-- Animated Laser Scanline -->
+            <div class="laser-scanline" id="laser-scanline"></div>
+            
+            <div class="scanner-idle-badge" id="scanner-hud-text">ALIGN FACE WITHIN RETICLE</div>
+          </div>
+
+          <!-- Upload Dropzone View -->
+          <div class="dropzone-box" id="viewport-upload" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <h3>Drop portrait photo here</h3>
+            <p>or click to browse from device (JPG, PNG, WEBP)</p>
+            <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display:none;">
+          </div>
+
+          <!-- Sample Face Picker View -->
+          <div id="viewport-samples" style="display: none;">
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+              Select a calibrated sample face for instant 1-click scanning:
+            </p>
+            <div class="sample-grid" id="sample-grid">
+              <!-- Dynamically loaded samples -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="controls-bar">
+          <button class="btn-primary" id="btn-scan-trigger">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span id="scan-btn-label">INITIATE BIOMETRIC SCAN</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Biometric Telemetry & Log Console -->
+      <section class="glass-panel telemetry-card">
+        <div class="telemetry-header">
+          <span>AI TELEMETRY CONSOLE</span>
+          <span id="telemetry-fps">FPS: 30</span>
+        </div>
+        <div class="telemetry-log" id="telemetry-log">
+          <div class="log-line">> System initialized. Neural biometric sensors stand by.</div>
+          <div class="log-line">> Ready for facial phenotype acquisition.</div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Right Column: Profile Dossier & AI Family Kinship -->
+    <section class="results-column">
+
+      <!-- Empty State View -->
+      <div class="empty-placeholder" id="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <h3>No Biometric Scan Profile Active</h3>
+        <p>Position your face in the webcam scanner, drop an image, or pick a sample portrait to synthesize a full personal dossier and AI close family network.</p>
+      </div>
+
+      <!-- Scanned Profile Dossier Card (hidden until scanned) -->
+      <div class="glass-panel dossier-card" id="dossier-card" style="display: none;">
+        
+        <!-- Top Row: Photo + Core Identity Specs -->
+        <div class="dossier-top">
+          <div class="dossier-photo-box">
+            <img id="dossier-captured-img" class="dossier-photo" alt="Scanned Face" />
+            <div class="dossier-dna-badge" id="dossier-dna-hash">DNA: BIO-0000-0000</div>
+          </div>
+
+          <div class="dossier-details">
+            <div class="dossier-tags">
+              <span class="tag-badge cyan" id="dossier-archetype-badge">The Architect (INTJ)</span>
+              <span class="tag-badge emerald" id="dossier-gender-badge">Female</span>
+              <span class="tag-badge violet" id="dossier-heritage-badge">Global-Cosmopolitan</span>
+            </div>
+            
+            <h2 class="dossier-name" id="dossier-name">Elena Vance</h2>
+            <div class="dossier-title" id="dossier-job">Bioinformatics &amp; Neural Systems Architect</div>
+
+            <div class="dossier-specs-grid">
+              <div class="spec-item">
+                <span class="spec-label">Est. Age</span>
+                <span class="spec-val" id="dossier-age">32 Years</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Bilateral Symmetry</span>
+                <span class="spec-val" id="dossier-symmetry">96.4%</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Eye Pigment</span>
+                <span class="spec-val" id="dossier-eyes">Hazel Emerald</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Hair Profile</span>
+                <span class="spec-val" id="dossier-hair">Chestnut Brown</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Cranial Jawline</span>
+                <span class="spec-val" id="dossier-jaw">Heart Contour</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Expression</span>
+                <span class="spec-val" id="dossier-expression">Composed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Narrative Bio -->
+        <div class="dossier-narrative">
+          <div class="narrative-headline">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            Personal &amp; Biogenetic Dossier Summary
+          </div>
+          <p id="dossier-bio-text">Loading biographical synthesis...</p>
+        </div>
+
+        <!-- Attribute Radar / Bars -->
+        <div class="attribute-bars-grid" id="dossier-attributes-grid">
+          <!-- Populated dynamically -->
+        </div>
+
+      </div>
+
+      <!-- Close Family Kinship Section (hidden until scanned) -->
+      <div class="family-section" id="family-section" style="display: none;">
+        <div class="section-nav">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            AI-Synthesized Close Family &amp; Kinship Lineage
+          </div>
+
+          <div class="view-toggle">
+            <button class="toggle-btn active" id="view-cards-btn">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              Kinship Cards
+            </button>
+            <button class="toggle-btn" id="view-tree-btn">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="5" r="3"></circle>
+                <circle cx="6" cy="19" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <path d="M12 8v4M6 16v-2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              Interactive Pedigree Tree
+            </button>
+          </div>
+        </div>
+
+        <!-- Family Member Cards Grid -->
+        <div class="family-cards-grid" id="family-cards-grid">
+          <!-- Populated dynamically with family relative cards -->
+        </div>
+
+        <!-- Interactive Pedigree Tree View -->
+        <div class="family-tree-container" id="family-tree-container">
+          <div class="tree-canvas-wrapper" id="tree-canvas-wrapper">
+            <!-- Pedigree tiers (Grandparents -> Parents -> Person & Siblings -> Children) -->
+          </div>
+        </div>
+
+        <!-- Bottom Action Toolbar -->
+        <div class="action-toolbar">
+          <button class="btn-secondary" id="btn-export-json">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export Dossier JSON
+          </button>
+          <button class="btn-secondary" id="btn-print-dossier">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Print / Save PDF Dossier
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Settings & API Key Modal -->
+  <div class="modal-backdrop" id="settings-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>AI Engine &amp; Vision Configuration</h3>
+        <button class="btn-icon" id="settings-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+          BioScan AI includes a built-in <strong>Biogenetic Neural Synthesizer</strong> that extracts real pixel geometry and generates coherent genetic lineages offline. You can also connect <strong>Google Gemini Multimodal Vision</strong> for deeper LLM reasoning.
+        </p>
+
+        <div class="form-group">
+          <label for="engine-select">Preferred AI Model Engine</label>
+          <select id="engine-select" class="form-input" style="background:#060a12; cursor:pointer;">
+            <option value="auto">Auto (Gemini if key provided, else Biogenetic Synthesizer)</option>
+            <option value="biogenetic">Built-in Biogenetic Neural Synthesizer (Instant &amp; Offline)</option>
+            <option value="gemini">Google Gemini 2.5 / 1.5 Flash Vision Multimodal</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="gemini-key-input">Google Gemini API Key (Optional)</label>
+          <input type="password" id="gemini-key-input" class="form-input" placeholder="AIzaSy...">
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem;">
+          <button class="btn-secondary" id="btn-test-key" style="font-size: 0.75rem;">Validate Key</button>
+          <button class="btn-primary" id="btn-save-settings" style="width: auto; padding: 0.5rem 1.25rem; font-size: 0.85rem;">Save Settings</button>
+        </div>
+        <div id="settings-feedback" style="font-size: 0.75rem; font-family: var(--font-mono); min-height: 18px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Context & App Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
