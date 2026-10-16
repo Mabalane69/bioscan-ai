@@ -1,89 +1,64 @@
-# BioScan AI • Facial Biometrics, Profile Dossier & Kinship Synthesizer
+# BioScan Face Match, Family & Emergency Contacts
 
-An intelligent web application that scans a human face, extracts facial landmarks, geometry, and color metrics, synthesizes a rich psychological and demographic dossier, and AI-generates a coherent close family network with genetic inheritance markers, relationship dynamics, and visual pedigree trees.
+BioScan lets members explicitly enroll a face-recognition template, scan a face to find a consenting registered member, and request a mutual follow before either person can see the other's full profile and discoverable family links. It also supports member search, relationship descriptions, and a ranked emergency-contact list. Profiles and contacts are stored in SQLite; there are no generated identities, sample users, or seeded family records.
 
----
+## Run locally
 
-## 🌟 Key Features
+Requires Python 3.9 or newer.
 
-1. **Facial Biometric Scanner**:
-   - **Live Webcam Mode**: Real-time biometric HUD with laser scanline animations, face oval reticle, crosshair alignment, and synthesized Web Audio sound FX.
-   - **Photo Upload Mode**: Drag-and-drop or browse files (JPG, PNG, WEBP).
-   - **Sample Faces Gallery**: 4 diverse test portraits for instant 1-click scanning without requiring a webcam.
-   - **AI Telemetry Console**: Live streaming status logs during landmark acquisition and genetic hash generation.
-
-2. **Personal Profile Dossier**:
-   - Scanned face snapshot with 256-bit cryptographic **Biometric DNA Hash**.
-   - Estimated age, gender presentation, cultural heritage, and bilateral cranial symmetry score.
-   - Personality archetype & MBTI code (e.g., *The Architect - INTJ*, *The Luminary - ENFJ*).
-   - Core attribute meters: *Cognitive Analytical*, *Emotional Resonance*, *Resilience*, *Creative Divergence*, and *Kinship Cohesion*.
-   - Deep narrative biography reflecting facial demeanor, career calling, and ancestral traits.
-
-3. **AI-Generated Close Family & Kinship**:
-   - Coherent genealogy engine generating realistic relatives:
-     - **Parents**: Mother & Father (plausible age gap, inherited eye/jawline genetics, career status).
-     - **Siblings**: Brother, Sister, or Twin (shared craniofacial ratio, mirroring smile mechanics).
-     - **Spouse / Life Partner**: Complementary phenotype and narrative of how they met.
-     - **Children**: Son / Daughter (inherited features and aspirational pursuits).
-     - **Grandparents / Extended Kin**: Lineage keepers and longevity markers.
-   - **Procedural SVG Portraits**: Tailored vector avatars for each relative representing age, hairstyles, glasses, and skin pigmentation.
-   - **Interactive Pedigree Tree**: Generational hierarchy view (Generations I, II, Target, Next Gen) with kinship degrees.
-   - **Re-roll Member**: Instant re-synthesis of individual relatives.
-
-4. **Dual AI Engine Architecture**:
-   - **Built-in Biogenetic Neural Synthesizer (Default)**: Instant, zero-configuration offline engine extracting real pixel geometry, color histograms, and deterministic genealogical inheritance.
-   - **Google Gemini Multimodal Vision (Optional)**: Connect your Gemini API Key in the UI settings for deep cloud multimodal LLM reasoning.
-
-5. **Export & Sharing**:
-   - **JSON Export**: Downloads complete structured dossier data.
-   - **Print / PDF Dossier**: Formats an intelligence-grade physical report with `@media print` styling.
-
----
-
-## 🚀 Quick Start
-
-### 1. Install Dependencies
-```bash
+```powershell
 python -m pip install -r requirements.txt
-```
-
-### 2. Start the Server
-```bash
 python server.py
 ```
 
-### 3. Open in Browser
-Navigate to:
+Open <http://localhost:5050>. Accounts, face templates, and contact lists are saved in `bioscan.sqlite3` next to `server.py`. The first face enrollment or scan downloads about 37 MB of pinned, checksum-verified YuNet and SFace ONNX models from the OpenCV Zoo GitHub repository into the ignored `models/` folder. Face images are processed locally by the app server and discarded; only the 128-value face template is retained for opted-in members. Images are not sent to a face-recognition provider. Set `BIOSCAN_DATABASE` to use another database path, `BIOSCAN_MODEL_DIR` to choose a model cache folder, `PORT` to choose another port, or `HOST` to choose the bind address. The default host is `127.0.0.1`.
+
+## Account and directory behavior
+
+- Register with your name, email, and a password of at least 10 characters. A phone number is optional.
+- Discovery is opt-in. People who enable it can be found by signed-in users by name or email. Turn it off from your profile at any time.
+- Face matching is a separate, explicit opt-in. Members choose an image for enrollment and can delete their stored template and withdraw consent at any time. Only opted-in enrolled profiles are searched. Enrollment and scan images must contain exactly one face.
+- A match shows the member's name and similarity score, not contact details. Signed-in members may request to follow matched people. Accepting an invitation establishes a mutual follow; only mutual follows can view each other's full profile and discoverable related people. Pending invitations can be accepted or rejected.
+- Search results show names and email addresses. Phone numbers are returned only for profiles in the signed-in user's emergency-contact list.
+- Add a registered person with a description such as “older sister” or “maternal uncle”. Each person's emergency list is private and ordered independently.
+- Move contacts up and down to set priority. The first contact is priority 1.
+- BioScan stores the list for reference; it does not place calls, alert contacts, or contact emergency services.
+
+## API
+
+Authenticated requests use `Authorization: Bearer <token>`. Registration and login return a token; the browser keeps it in session storage.
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `POST` | `/api/register` | Create a profile and sign in |
+| `POST` | `/api/login` | Sign in |
+| `POST` | `/api/logout` | Revoke the current session |
+| `GET` | `/api/me` | Read the signed-in profile |
+| `PATCH` | `/api/me` | Update name, phone, and discovery setting |
+| `GET` | `/api/people?q=...` | Search discoverable registered profiles |
+| `POST` | `/api/face-template` | Enroll/update a face with explicit consent |
+| `DELETE` | `/api/face-template` | Delete the face template and withdraw face-search consent |
+| `POST` | `/api/face-match` | Match one face against enrolled, opted-in members |
+| `GET` | `/api/follow-requests` | List pending invitations and mutual follows |
+| `POST` | `/api/follow-requests` | Invite a matched member to follow |
+| `POST` | `/api/follow-requests/{id}/accept` | Accept an invitation and establish a mutual follow |
+| `POST` | `/api/follow-requests/{id}/reject` | Reject an invitation |
+| `GET` | `/api/profiles/{id}` | View full profile/related people after mutual follow |
+| `GET` | `/api/contacts` | List this user's ordered emergency contacts |
+| `POST` | `/api/contacts` | Add a registered profile and relationship description |
+| `PUT` | `/api/contacts/order` | Set the complete contact order |
+| `DELETE` | `/api/contacts/{id}` | Remove a contact |
+
+## Tests
+
+```powershell
+python -m unittest test_server test_api
 ```
-http://localhost:5050
-```
 
----
+The API tests use a temporary SQLite database and an ephemeral local HTTP server; they do not modify the app's database.
 
-## 📂 Project Structure
+## Deployment and privacy
 
-```
-AntiGravityTest/
-├── server.py              # HTTP server with REST APIs & static file routing
-├── ai_engine.py           # Core biometric feature extractor & kinship synthesis engine
-├── generate_samples.py    # Script that generates sample portraits
-├── test_server.py         # Unit tests for image analysis & profile synthesis
-├── test_api.py            # Integration test verifying all HTTP endpoints
-├── requirements.txt       # Dependencies (pillow, requests)
-├── README.md              # Documentation
-└── static/
-    ├── index.html         # Cybernetic biometric UI markup
-    ├── styles.css         # Modern dark HUD styling & print stylesheet
-    ├── app.js             # Client controller, Web Audio FX, webcam HUD, SVG avatar generator
-    └── samples/           # Sample face images for instant testing
-```
+This is a local-development app, not yet a public production service. Face templates are sensitive biometric data and are currently stored in the SQLite database without application-level encryption. Before hosting it for real users, add encryption at rest and key management, HTTPS, email verification, password reset, login and scan throttling, audit/retention controls, database backups, and a reviewed consent/data-protection policy. Do not expose the development HTTP server directly to the public internet. Face matching can make false matches or miss matches; verify a person's identity before acting on a result. Never rely on the app to contact emergency services.
 
----
-
-## 📡 REST API Endpoints
-
-- `GET /` — Serves the Single Page Application.
-- `GET /api/samples` — Returns metadata and thumbnails for sample test portraits.
-- `POST /api/scan` — Accepts `{ image: base64, api_key: "...", engine: "auto"|"biogenetic"|"gemini" }` and returns the generated profile dossier and family network.
-- `POST /api/regenerate-family-member` — Regenerates an individual family relative.
-- `POST /api/test-key` — Verifies a Google Gemini API key.
+Face model licenses: [OpenCV Zoo YuNet](https://github.com/opencv/opencv_zoo/tree/47534e27c9851bb1128ccc0102f1145e27f23f98/models/face_detection_yunet) and [OpenCV Zoo SFace (Apache-2.0)](https://github.com/opencv/opencv_zoo/tree/47534e27c9851bb1128ccc0102f1145e27f23f98/models/face_recognition_sface).

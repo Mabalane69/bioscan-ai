@@ -5,3 +5,7 @@ __pycache__/
 venv/
 .env
 .env.*
+bioscan.sqlite3
+bioscan.sqlite3-shm
+bioscan.sqlite3-wal
+models/
